@@ -1,0 +1,59 @@
+It is modified version on Bob Ippolito's <bob@mochimedia.com> mochijson2 module, one can find in excellent mochiweb, erlang webserver.
+
+Yet another JSON (RFC 4627) library for Erlang. jsonerl works with binaries as strings, arrays as lists (without an {array, _}) wrapper and it only knows how to decode UTF-8 (and ASCII).
+
+It has the following mapping:
+
+Erlang data type:        =>          JavaScript data type:        =>          Erlang data type:
+-----------------------------------------------------------------------------------------------
+
+1.    atom true                            boolean true                             atom true  
+
+2.    atom false                           boolean false                            atom false
+
+3.    atom undefined                       null                                     atom  undefined                         
+
+4.    atom used as key in proptuple        object's field                           atom
+  
+5.    any other atom                       string                                   binary holding string
+                         
+6.    list                                 array                                    list
+ 
+7.    number                               number                                   number
+
+8.    binary                               string                                   binary   
+
+9.    proptuple                            object                                   proptuple
+-----------------------------------------------------------------------------------------------
+
+Note: proptuple is result of passing proplist to list_to_atom bif ;)
+This is concept of mine to nicely model javascript object without a need of tagging structures on erlang side.
+
+Eg. JavaScript object 
+
+{
+     name: "Luc Besson",
+     year_of_birth: 1959,
+     city: "Paris",
+     photo: "http://is.gd/3pYJF",
+     movies: ["Taken","Bandidas","Taxi"]
+}
+
+results in
+
+{
+     {name, <<"Luc Besson">>},
+     {year_of_birth, 1959},
+     {city, <<"Paris">>},
+     {photo, <<"http://is.gd/3pYJF">>},
+     {movies, [<<"Taken">>,<<"Bandidas">>,<<"Taxi">>]}
+}
+
+-----------------------------------------------------------------------------------------------
+
+Additionally there is utility macros delivered with jsonerl that helps turning erlang records to json and back.
+See jsonerl.hrl
+
+
+
+  
