@@ -13,17 +13,15 @@ Erlang data type:        =>          JavaScript data type:        =>          Er
 
 3.    atom undefined                       null                                     atom  undefined                         
 
-4.    atom used as key in proptuple        object's field                           atom
-  
-5.    any other atom                       string                                   binary holding string
-                         
-6.    list                                 array                                    list
+4.    any other atom                       string                                   binary holding string
+
+5.    list                                 array                                    list
  
-7.    number                               number                                   number
+6.    number                               number                                   number
 
-8.    binary                               string                                   binary   
+7.    binary                               string                                   binary   
 
-9.    proptuple                            object                                   proptuple
+8.    proptuple                            object                                   proptuple
 -----------------------------------------------------------------------------------------------
 
 Note: proptuple is result of passing proplist to list_to_atom bif ;)
@@ -42,17 +40,39 @@ Eg. JavaScript object
 results in
 
 {
-     {name, <<"Luc Besson">>},
-     {year_of_birth, 1959},
-     {city, <<"Paris">>},
-     {photo, <<"http://is.gd/3pYJF">>},
+     {<<"name">>, <<"Luc Besson">>},
+     {<<"year_of_birth, 1959},
+     {<<"city, <<"Paris">>},
+     {<<"photo, <<"http://is.gd/3pYJF">>},
      {movies, [<<"Taken">>,<<"Bandidas">>,<<"Taxi">>]}
 }
 
 -----------------------------------------------------------------------------------------------
 
-Additionally there is utility macros delivered with jsonerl that helps turning erlang records to json and back.
-See jsonerl.hrl
+Additionally there is utility macros delivered with jsonerl that helps turning erlang records to json and back. 
+
+For example:
+
+-include("jsonerl.hrl").
+-record(artist, {name, year_of_birth, city, photo, movies}).
+
+Artist = #artist{name = <<"Luc Besson">>, year_of_birth = 1959, city = <<"Paris">>, photo = <<"http://is.gd/3pYJF">>, movies = [<<"Taken">>,<<"Bandidas">>,<<"Taxi">>]},
+Json = ?record_to_json(artist, Artist),
+Artist = ?json_to_record(artist, Json).
+
+
+the resulting json will be:
+
+<pre lang="javascript" line="1">
+{
+     name: "Luc Besson",
+     year_of_birth: 1959,
+     city: "Paris",
+     photo: "http://is.gd/3pYJF",
+     movies: ["Taken","Bandidas","Taxi"]
+}
+
+
 
 
 

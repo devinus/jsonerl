@@ -3,6 +3,7 @@
 -export([encoder/1, encode/1]).
 -export([decoder/1, decode/1]).
 -export([test/0]).
+-export([to_ex_a/1]).
 
 % This is a macro to placate syntax highlighters..
 -define(Q, $\").
@@ -615,3 +616,13 @@ e2j_test_vec(utf8) ->
      {[-123, <<"foo">>, obj_from_list([{<<"bar">>, []}]), null],
       "[-123,\"foo\",{\"bar\":[]},null]"}
     ].
+    
+% ------ utils
+
+to_ex_a(A) when is_atom(A) -> A;
+to_ex_a(B) when is_binary(B) ->
+  to_ex_a(binary_to_list(B));
+to_ex_a(S) when is_list(S) ->
+  list_to_existing_atom(S);
+to_ex_a(T) ->
+  to_ex_a(io_lib:print(T)).    
